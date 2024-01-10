@@ -54,26 +54,122 @@
             border-radius: 10px;
         }
 
+        .photo:hover {
+            border: 2px solid #ffffff;
+            animation: scaleUp 1s forwards;
+        }
+
         .heart-container {
             z-index: 2;
+        }
+
+        .custom-button {
+            display: inline-block;
+            padding: 10px 20px;
+            text-decoration: none;
+            background-color: #ffffff;
+            color: #333333;
+            border: 2px solid #333333;
+            border-radius: 8px;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .custom-button:hover {
+            background-color: #333333;
+            color: #ffffff;
+            border-color: #ffffff;
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(126, 0, 96, 1.0); /* Purple overlay color with transparency */
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .overlay-button {
+            padding: 20px;
+            font-size: 18px;
+            background-color: #ffffff;
+            color: #333333;
+            border: 2px solid #333333;
+            border-radius: 8px;
+            cursor: pointer;
+            animation: pulse 1s infinite;
+            margin-bottom: 50px; /* Add margin to separate button and text */
+        }
+
+        .overlay-text {
+            color: #ffffff;
+            font-size: 16px;
+            position: relative;
+            top: -10px; /* Adjust the vertical position as needed */
+        }
+
+        @keyframes scaleUp {
+            0% {
+                transform: scale(1);
+            }
+
+            100% {
+                transform: scale(2);
+            } 
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.2);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .loveText {
+            color: red;
+            animation: pulse 1s infinite;
         }
     </style>
 </head>
 
 <body>
+    <div class="overlay" id="overlay">
+        <div class="overlay-button">Click me!</div>
+        <div class="overlay-text">Click as fast as you can!</div>
+    </div>
     <div class="text-container">
         <img class="photo" src="output.png"/>
         <div class="text-content">
-            <h1>Buon Lunedi! Amore</h1>
-            <p>Inizia questa settimana con un sorriso</p>
+            <h1>Buon Mesiversario Amore!, Sono 4 Mesi</h1>
+            <p>Inizia questa giornata con un sorriso e con la felicità che solo te sai trasmettere</p>
             <p>So che questo design lascia il tempo che trova, but i hope it will make your heart beats</p>
-            <h2>Love you!</h2>
+            <h1 class="loveText">Love you! ❤️</h2>
+            <a href="https://drive.google.com/file/d/1u6AV4Ddijs3I-o4iO8egMeGvDPbVgjln/view?usp=sharing" class="custom-button" target="_blank">Click me!</a>
         </div>
     </div>
     <div class="heart-container"></div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            addHeartGifOnMouseMove();
+            showOverlay();
+        });
+
+        function addHeartGifOnMouseMove() {
             document.addEventListener('mousemove', function (event) {
                 // Create an img element for the hearts gif
                 const heartsImg = document.createElement('img');
@@ -96,7 +192,33 @@
                     heartContainer.removeChild(heartsImg);
                 }, 2000); // Adjust the delay as needed
             });
-        });
+        }
+
+        function playAudio() {
+            const audio = new Audio("audio.mp3");
+            audio.addEventListener("loadedmetadata", () => {
+                audio.currentTime = 31;
+                audio.play();
+            });
+            audio.load();
+        }
+
+        function showOverlay() {
+            const overlay = document.getElementById('overlay');
+            overlay.style.display = 'flex';
+
+            let clickCount = 0;
+
+            function handleOverlayClick() {
+                clickCount++;
+                if (clickCount >= 10) {
+                    overlay.style.display = 'none';
+                    playAudio();
+                }
+            }
+
+            overlay.addEventListener('click', handleOverlayClick);
+        }
     </script>
 </body>
 
